@@ -32,7 +32,7 @@ class MDETR(nn.Module):
         num_classes,
         num_queries,
         aux_loss=False,
-        contrastive_hdim=32,
+        contrastive_hdim=64,
         contrastive_loss=False,
         contrastive_align_loss=False,
         qa_dataset: Optional[str] = None,
