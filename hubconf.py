@@ -30,7 +30,13 @@ def _make_backbone(backbone_name: str, mask: bool = False):
 
 
 def _make_detr(
-    backbone_name: str, num_queries=100, mask=False, qa_dataset=None, predict_final=False, text_encoder="roberta-base"
+    backbone_name: str,
+    num_queries=100,
+    mask=False,
+    qa_dataset=None,
+    predict_final=False,
+    text_encoder="roberta-base",
+    contrastive_align_loss=True,
 ):
     hidden_dim = 256
     backbone = _make_backbone(backbone_name, mask)
@@ -42,6 +48,7 @@ def _make_detr(
         num_queries=num_queries,
         qa_dataset=qa_dataset,
         predict_final=predict_final,
+        contrastive_align_loss=contrastive_align_loss,
     )
     if mask:
         return DETRsegm(detr)
@@ -182,7 +189,7 @@ def mdetr_resnet101_phrasecut(pretrained=False, threshold=0.5, return_postproces
     MDETR R101 with 6 encoder and 6 decoder layers.
     Trained on Phrasecut, achieves 53.1 M-IoU on the test set
     """
-    model = _make_detr("resnet101", mask=True)
+    model = _make_detr("resnet101", mask=True, contrastive_align_loss=False)
     if pretrained:
         checkpoint = torch.hub.load_state_dict_from_url(
             url="https://zenodo.org/record/4721981/files/phrasecut_resnet101_checkpoint.pth",
@@ -200,7 +207,7 @@ def mdetr_efficientnetB3_phrasecut(pretrained=False, threshold=0.5, return_postp
     MDETR ENB3 with 6 encoder and 6 decoder layers.
     Trained on Phrasecut, achieves 53.7 M-IoU on the test set
     """
-    model = _make_detr("timm_tf_efficientnet_b3_ns", mask=True)
+    model = _make_detr("timm_tf_efficientnet_b3_ns", mask=True, contrastive_align_loss=False)
     if pretrained:
         checkpoint = torch.hub.load_state_dict_from_url(
             url="https://zenodo.org/record/4721981/files/phrasecut_EB3_checkpoint.pth",
