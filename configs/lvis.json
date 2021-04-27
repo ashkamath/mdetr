@@ -1,0 +1,7 @@
+{
+    "combine_datasets": ["modulated_lvis"],
+    "combine_datasets_val": ["modulated_lvis"],
+    "coco2017_path": "",
+    "modulated_lvis_ann_path": "mdetr_annotations/",
+    "lvis_subset": 10
+}

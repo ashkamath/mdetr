@@ -1,0 +1,10 @@
+{
+    "combine_datasets": ["clevr_question"],
+    "combine_datasets_val": ["clevr_question"],
+    "clevr_img_path": "",
+    "clevr_ann_path": "CLEVR-Humans/",
+    "split_qa_heads": 1,
+    "clevr_variant": "humans",
+    "no_detection": 1,
+    "do_qa": 1
+}

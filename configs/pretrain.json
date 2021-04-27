@@ -1,0 +1,14 @@
+{
+    "combine_datasets": ["flickr", "mixed"],
+    "combine_datasets_val": ["gqa", "flickr", "refexp"],
+    "coco_path": "",
+    "vg_img_path": "",
+    "flickr_img_path": "",
+    "refexp_ann_path": "mdetr_annotations",
+    "flickr_ann_path": "mdetr_annotations",
+    "gqa_ann_path": "mdetr_annotations",
+    "refexp_dataset_name": "all",
+    "GT_type": "separate",
+    "flickr_dataset_path": ""
+}
+

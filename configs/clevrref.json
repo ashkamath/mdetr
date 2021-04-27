@@ -1,0 +1,7 @@
+{
+    "combine_datasets": ["clevrref"],
+    "combine_datasets_val": ["clevrref"],
+    "clevr_img_path": "",
+    "clevr_ann_path": "clevrref",
+    "predict_final": 1
+}

@@ -1,0 +1,7 @@
+{
+    "combine_datasets": ["phrasecut"],
+    "combine_datasets_val": ["phrasecut"],
+    "vg_img_path": "",
+    "phrasecut_ann_path": "mdetr_annotations/",
+    "phrasecut_orig_ann_path": ""
+}

@@ -1,0 +1,9 @@
+{
+    "combine_datasets": ["clevr"],
+    "combine_datasets_val": ["clevr"],
+    "clevr_img_path": "",
+    "clevr_ann_path": "cogent_medium",
+    "split_qa_heads": 1,
+    "do_qa": 1,
+    "clevr_variant": "cogent"
+}
