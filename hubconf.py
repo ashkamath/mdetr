@@ -49,6 +49,7 @@ def _make_detr(
         qa_dataset=qa_dataset,
         predict_final=predict_final,
         contrastive_align_loss=contrastive_align_loss,
+        contrastive_hdim=64,
     )
     if mask:
         return DETRsegm(detr)
