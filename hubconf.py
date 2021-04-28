@@ -155,7 +155,7 @@ def mdetr_resnet101_gqa(pretrained=False, return_postprocessor=False):
     Trained on GQA, achieves 61.99 on test-std
     """
 
-    model = _make_detr("resnet101", qa_dataset="gqa")
+    model = _make_detr("resnet101", qa_dataset="gqa", contrastive_align_loss=False)
     if pretrained:
         checkpoint = torch.hub.load_state_dict_from_url(
             url="https://zenodo.org/record/4721981/files/gqa_resnet101_checkpoint.pth",
@@ -174,7 +174,7 @@ def mdetr_efficientnetB5_gqa(pretrained=False, return_postprocessor=False):
     Trained on GQA, achieves 61.99 on test-std
     """
 
-    model = _make_detr("timm_tf_efficientnet_b5_ns", qa_dataset="gqa")
+    model = _make_detr("timm_tf_efficientnet_b5_ns", qa_dataset="gqa", contrastive_align_loss=False)
     if pretrained:
         checkpoint = torch.hub.load_state_dict_from_url(
             url="https://zenodo.org/record/4721981/files/gqa_EB5_checkpoint.pth", map_location="cpu", check_hash=True
