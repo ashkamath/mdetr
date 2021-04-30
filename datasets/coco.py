@@ -16,10 +16,11 @@ import datasets.transforms as T
 
 
 class ModulatedDetection(torchvision.datasets.CocoDetection):
-    def __init__(self, img_folder, ann_file, transforms, return_masks, return_tokens, tokenizer):
+    def __init__(self, img_folder, ann_file, transforms, return_masks, return_tokens, tokenizer, is_train=False):
         super(ModulatedDetection, self).__init__(img_folder, ann_file)
         self._transforms = transforms
         self.prepare = ConvertCocoPolysToMask(return_masks, return_tokens, tokenizer=tokenizer)
+        self.is_train = is_train
 
     def __getitem__(self, idx):
         img, target = super(ModulatedDetection, self).__getitem__(idx)
@@ -36,7 +37,7 @@ class ModulatedDetection(torchvision.datasets.CocoDetection):
             if extra_key in coco_img:
                 target[extra_key] = coco_img[extra_key]
 
-        if "tokens_positive_eval" in coco_img:
+        if "tokens_positive_eval" in coco_img and not self.is_train:
             tokenized = self.prepare.tokenizer(caption, return_tensors="pt")
             target["positive_map_eval"] = create_positive_map(tokenized, coco_img["tokens_positive_eval"])
             target["nb_eval"] = len(target["positive_map_eval"])
