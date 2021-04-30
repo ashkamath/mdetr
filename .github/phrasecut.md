@@ -23,7 +23,7 @@ The config for this dataset can be found in configs/phrasecut.json and is also s
 ```
 
 * Download the VisualGenome images. For consistency with the other datasets, we use the ones from GQA, available at [GQA images](https://nlp.stanford.edu/data/gqa/images.zip). Update `vg_img_path` to point to the folder containing the images.
-* Download our pre-processed annotations that are converted to coco format (all datasets present in the same zip folder for MDETR annotations): [Pre-processed annotations](https://zenodo.org/record/4721981/files/mdetr_annotations.tar.gz?download=1) and update the `phrasecut_ann_path` to this folder with pre-processed annotations.
+* Download our pre-processed annotations that are converted to coco format (all datasets present in the same zip folder for MDETR annotations): [Pre-processed annotations](https://zenodo.org/record/4729015/files/mdetr_annotations.tar.gz?download=1) and update the `phrasecut_ann_path` to this folder with pre-processed annotations.
 * Download the original [PhraseCut annotations](https://people.cs.umass.edu/~chenyun/publication/phrasecut/) and update the `phrasecut_orig_ann_path` with the path to the folder
 
 

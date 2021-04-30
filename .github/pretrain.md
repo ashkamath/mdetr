@@ -89,7 +89,7 @@ The config file for pretraining is configs/pretrain.json and looks like:
 * Download the original Flickr30k entities annotations from: [Flickr30k annotations](https://github.com/BryanPlummer/flickr30k_entities) and update the `flickr_dataset_path` to the folder with annotations.
 * Download the gqa images at [GQA images](https://nlp.stanford.edu/data/gqa/images.zip) and update `vg_img_path` to point to the folder containing the images.
 * Download COCO images [Coco train2014](http://images.cocodataset.org/zips/train2014.zip). Update the `coco_path` to the folder containing the downloaded images.
-* Download our pre-processed annotations that are converted to coco format (all datasets present in the same zip folder for MDETR annotations): [Pre-processed annotations](https://zenodo.org/record/4721981/files/mdetr_annotations.tar.gz?download=1) and update the `flickr_ann_path`, `gqa_ann_path` and `refexp_ann_path` to this folder with pre-processed annotations.
+* Download our pre-processed annotations that are converted to coco format (all datasets present in the same zip folder for MDETR annotations): [Pre-processed annotations](https://zenodo.org/record/4729015/files/mdetr_annotations.tar.gz?download=1) and update the `flickr_ann_path`, `gqa_ann_path` and `refexp_ann_path` to this folder with pre-processed annotations.
 
 ## Script to run pre-training
 

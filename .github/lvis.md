@@ -22,7 +22,7 @@ The config for this dataset can be found in configs/lvis.json and is also shown 
 The `lvis_subset` controls the percentage of the full dataset to be used. Valid values are 1, 10 and 100.
 
 * You need the images from [COCO 2017](https://cocodataset.org/#download) and update the "coco2017_path" to the folder containing the images.
-* Download our pre-processed annotations that are converted to coco format (all datasets present in the same zip folder for MDETR annotations): [Pre-processed annotations](https://zenodo.org/record/4721981/files/mdetr_annotations.tar.gz?download=1) and update the "modulated_lvis_ann_path" to this folder with pre-processed annotations. The script to reproduce the annotations is located in scripts/fine-tuning/lvis_coco_format.py
+* Download our pre-processed annotations that are converted to coco format (all datasets present in the same zip folder for MDETR annotations): [Pre-processed annotations](https://zenodo.org/record/4729015/files/mdetr_annotations.tar.gz?download=1) and update the "modulated_lvis_ann_path" to this folder with pre-processed annotations. The script to reproduce the annotations is located in scripts/fine-tuning/lvis_coco_format.py
 
 
 ## Evaluating pre-trained models

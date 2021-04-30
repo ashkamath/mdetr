@@ -38,7 +38,7 @@ The config for this dataset can be found in configs/refcoco.json and is also sho
 ```
 
 The images for this dataset come from the COCO 2014 train split which can be downloaded from : [Coco train2014](http://images.cocodataset.org/zips/train2014.zip). Update the "coco_path" to the folder containing the downloaded images.
-Download our [pre-processed annotations](https://zenodo.org/record/4721981/files/mdetr_annotations.tar.gz?download=1) and place them in a folder called "mdetr_annotations". The `refexp_ann_path` should point to this folder.
+Download our [pre-processed annotations](https://zenodo.org/record/4729015/files/mdetr_annotations.tar.gz?download=1) and place them in a folder called "mdetr_annotations". The `refexp_ann_path` should point to this folder.
 
 ### Script to reproduce results
 
