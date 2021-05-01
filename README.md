@@ -220,3 +220,14 @@ Instructions to reproduce our results on CLEVR-based datasets are available at [
 
 # License
 MDETR is released under the Apache 2.0 license. Please see the [LICENSE](LICENSE) file for more information.
+
+# Citation 
+If you find this repository useful please give it a star and cite as follows! :) :
+```
+    @article{kamath2021mdetr,
+      title={MDETR--Modulated Detection for End-to-End Multi-Modal Understanding},
+      author={Kamath, Aishwarya and Singh, Mannat and LeCun, Yann and Misra, Ishan and Synnaeve, Gabriel and Carion, Nicolas},
+      journal={arXiv preprint arXiv:2104.12763},
+      year={2021}
+    }
+```
