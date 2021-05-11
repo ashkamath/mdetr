@@ -78,7 +78,7 @@ mkdir step1
 python main.py --dataset_config configs/clevr_pretrain.json --backbone "resnet18" --num_queries 25 --batch_size 64  --schedule linear_with_warmup --text_encoder_type distilroberta-base --output_dir step1 --epochs 30 --lr_drop 20
 ```
 
-### Training Step 2: CLEVR-Medium
+### Training Step 2: CLEVR-Full
 
 
 First, adjust the `clevr_ann_path` and `clevr_img_path` as in Step 1
