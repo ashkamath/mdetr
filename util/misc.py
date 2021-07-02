@@ -6,6 +6,7 @@ Misc functions, including distributed helpers.
 Mostly copy-paste from torchvision references.
 """
 import os
+import re
 import subprocess
 from typing import Any, Dict, List, Optional
 
@@ -14,7 +15,8 @@ import torchvision
 from torch import Tensor
 
 # needed due to empty tensor bug in pytorch and torchvision 0.5
-if float(torchvision.__version__[:3]) < 0.7:
+torchvision_versions = re.findall('0\.(\d{0,2})\.\d{0,2}', str(torchvision.__version__))
+if torchvision_versions and float(torchvision_versions[0]) < 7:
     from torchvision.ops import _new_empty_tensor
     from torchvision.ops.misc import _output_size
 
