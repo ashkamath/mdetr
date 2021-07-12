@@ -54,10 +54,10 @@ python run_with_submitit.py --dataset_config configs/phrasecut.json --backbone "
 In a second step, we freeze the detector, and train a segmentation head for 35 epochs
 For the Resnet101, assuming `detection_r101/checkpoint.pth` is the result of the first step
 ```
-python run_with_submitit.py --dataset_config configs/phrasecut.json  --ema --ngpus 8 --nodes 4  --frozen_weights detection_r101/checkpoint.pth --mask_model smallconv --no_aux_loss --epochs 35 --lr_drop 25
+python run_with_submitit.py --dataset_config configs/phrasecut.json --ngpus 8 --nodes 4  --frozen_weights detection_r101/checkpoint.pth --mask_model smallconv --no_aux_loss --epochs 35 --lr_drop 25
 ```
 
 For the EfficientNet-B3, assuming `detection_enb3/checkpoint.pth` is the result of the first step
 ```
-python run_with_submitit.py --dataset_config configs/phrasecut.json  --ema --ngpus 8 --nodes 4  --frozen_weights detection_enb3/checkpoint.pth --mask_model smallconv --no_aux_loss --epochs 35 --lr_drop 25  --backbone "timm_tf_efficientnet_b3_ns"
+python run_with_submitit.py --dataset_config configs/phrasecut.json --ngpus 8 --nodes 4  --frozen_weights detection_enb3/checkpoint.pth --mask_model smallconv --no_aux_loss --epochs 35 --lr_drop 25  --backbone "timm_tf_efficientnet_b3_ns"
 ```
