@@ -13,11 +13,6 @@ import torch
 import torchvision
 from torch import Tensor
 
-# needed due to empty tensor bug in pytorch and torchvision 0.5
-if float(torchvision.__version__[:3]) < 0.7:
-    from torchvision.ops import _new_empty_tensor
-    from torchvision.ops.misc import _output_size
-
 
 def get_sha():
     cwd = os.path.dirname(os.path.abspath(__file__))
@@ -135,19 +130,20 @@ class NestedTensor(object):
 def interpolate(input, size=None, scale_factor=None, mode="nearest", align_corners=None):
     # type: (Tensor, Optional[List[int]], Optional[float], str, Optional[bool]) -> Tensor
     """
-    Equivalent to nn.functional.interpolate, but with support for empty batch sizes.
-    This will eventually be supported natively by PyTorch, and this
-    class can go away.
+    Equivalent to nn.functional.interpolate, but with support for empty channel sizes.
     """
-    if float(torchvision.__version__[:3]) < 0.7:
-        if input.numel() > 0:
-            return torch.nn.functional.interpolate(input, size, scale_factor, mode, align_corners)
+    if input.numel() > 0:
+        return torch.nn.functional.interpolate(input, size, scale_factor, mode, align_corners)
 
-        output_shape = _output_size(2, input, size, scale_factor)
-        output_shape = list(input.shape[:-2]) + list(output_shape)
-        return _new_empty_tensor(input, output_shape)
-    else:
-        return torchvision.ops.misc.interpolate(input, size, scale_factor, mode, align_corners)
+    assert input.shape[0] != 0 or input.shape[1] != 0, "At least one of the two first dimensions must be non zero"
+
+    if input.shape[1] == 0:
+        # Pytorch doesn't support null dimension on the channel dimension, so we transpose to fake a null batch dim
+        return torch.nn.functional.interpolate(input.transpose(0, 1), size, scale_factor, mode, align_corners).transpose(0, 1)
+
+    # empty batch dimension is now supported in pytorch
+    return torch.nn.functional.interpolate(input, size, scale_factor, mode, align_corners)
+
 
 
 def targets_to(targets: List[Dict[str, Any]], device):
