@@ -34,13 +34,13 @@ GQA has two types of splits "all" and "balanced". Choose the one you are interes
 #### To run evaluation on testdev balanced:
 
 ```
-python run_with_submitit.py --dataset_config configs/gqa.json --ngpus 1 --nodes 2  --ema --eval --do_qa --split_qa_heads --resume https://zenodo.org/record/4721981/files/gqa_resnet101_checkpoint.pth
+python run_with_submitit.py --dataset_config configs/gqa.json --ngpus 1 --nodes 2  --ema --eval --do_qa --split_qa_heads --no_contrastive_align_loss --resume https://zenodo.org/record/4721981/files/gqa_resnet101_checkpoint.pth
 ```
 
 To run on a single node with 2 gpus
 
 ```
-python -m torch.distributed.launch --nproc_per_node=2 --use_env main.py --dataset_config configs/gqa.json --ema --eval --do_qa --split_qa_heads --resume https://zenodo.org/record/4721981/files/gqa_resnet101_checkpoint.pth
+python -m torch.distributed.launch --nproc_per_node=2 --use_env main.py --dataset_config configs/gqa.json --ema --eval --do_qa --split_qa_heads --no_contrastive_align_loss  --resume https://zenodo.org/record/4721981/files/gqa_resnet101_checkpoint.pth
 ```
 
 
