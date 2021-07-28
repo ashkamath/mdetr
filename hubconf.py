@@ -280,7 +280,7 @@ def mdetr_efficientnetB3_refcocoplus(pretrained=False, return_postprocessor=Fals
     MDETR ENB3 with 6 encoder and 6 decoder layers.
     Trained on refcoco+, achieves 81.13 val accuracy
     """
-    model = _make_detr("timm_tf_efficientnet_b3_ns", mask=True)
+    model = _make_detr("timm_tf_efficientnet_b3_ns")
     if pretrained:
         checkpoint = torch.hub.load_state_dict_from_url(
             url="https://zenodo.org/record/4721981/files/refcoco%2B_EB3_checkpoint.pth",
@@ -316,7 +316,7 @@ def mdetr_efficientnetB3_refcocog(pretrained=False, return_postprocessor=False):
     MDETR ENB3 with 6 encoder and 6 decoder layers.
     Trained on refcocog, achieves 83.35 val accuracy
     """
-    model = _make_detr("timm_tf_efficientnet_b3_ns", mask=True)
+    model = _make_detr("timm_tf_efficientnet_b3_ns")
     if pretrained:
         checkpoint = torch.hub.load_state_dict_from_url(
             url="https://zenodo.org/record/4721981/files/refcocog_EB3_checkpoint.pth",
