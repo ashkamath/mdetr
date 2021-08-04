@@ -3,7 +3,7 @@
 import torch.utils.data
 import torchvision
 
-from .clevr import CustomCocoDetection
+from .mixed import CustomCocoDetection
 from .clevr import build as build_clevr
 from .clevrref import build as build_clevrref
 from .coco import build as build_coco
