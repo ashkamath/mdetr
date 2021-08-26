@@ -2,17 +2,16 @@ version: '3.7'
 
 services:
   mdetr_ore:
-    image: mdetr_ore:v1.0
+    image: mmaaz60/mdetr:v1.0
     volumes:
       - ./pretrain.sh:/workspace/pretrain.sh
       - ./data:/workspace/data
       - ./results:/workspace/results
-    container_name: ssl_fgvc
-    command: /bin/bash -c "pretrain.sh"
+    container_name: mdetr_ore
+    command: /bin/bash -c "bash pretrain.sh"
     deploy:
       resources:
         reservations:
           devices:
             - capabilities: [ gpu ]
     shm_size: '32gb'
-    restart: no
