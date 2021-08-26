@@ -1,5 +1,3 @@
-torch>=1.7.0
-torchvision>=0.6.0
 cython
 scipy
 xmltodict
