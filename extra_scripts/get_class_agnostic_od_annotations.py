@@ -45,9 +45,11 @@ def get_ca_od_annotations(dir_path):
         updated_file_contents["annotations"] += annotations
     print(f"It took {time.time() - start} seconds for assigning Ids.")
 
-    print(f"Print detections")
-    with open(f"{OUTPUT_DIR}/{os.path.basename(file_path)}", "w") as f:
+    print(f"Saving class agnostic object detection json (COCO format) file.")
+    start = time.time()
+    with open(f"{OUTPUT_DIR}/mdetr_ca_od_train.json", "w") as f:
         json.dump(updated_file_contents, f)
+    print(f"It took {time.time() - start} seconds to save the annotation file.")
 
 
 def parse_arguments():
