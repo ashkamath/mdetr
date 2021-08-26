@@ -4,7 +4,7 @@ cython
 scipy
 xmltodict
 tqdm
-transformers
+transformers==4.5.1
 onnx
 onnxruntime
 prettytable
