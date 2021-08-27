@@ -52,8 +52,8 @@ def class_agnostic_nms(annotations, iou=0.99):
         for i in range(len(boxes)):
             b = boxes[i]
             dummy_ann = annotations[0].copy()
-            dummy_ann["bbox"] = [b[0], b[1], b[2] - b[0], b[3] - b[1]]
-            dummy_ann["area"] = (b[2] - b[0]) * (b[3] - b[1])
+            dummy_ann["bbox"] = [int(b[0]), int(b[1]), int(b[2]) - int(b[0]), int(b[3]) - int(b[1])]
+            dummy_ann["area"] = float((b[2] - b[0]) * (b[3] - b[1]))
             dummy_ann["iscrowd"] = 0
             dummy_ann["id"] = i
             r_annotations.append(dummy_ann)
