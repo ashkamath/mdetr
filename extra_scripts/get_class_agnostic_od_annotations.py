@@ -40,7 +40,7 @@ def get_ca_od_annotations(dir_path):
         image["id"] = i
         annotations = annotations_dict[key]
         for a in annotations:
-            a["image_id"] = 1
+            a["image_id"] = i
         updated_file_contents["images"].append(image)
         updated_file_contents["annotations"] += annotations
     print(f"It took {time.time() - start} seconds for assigning Ids.")
