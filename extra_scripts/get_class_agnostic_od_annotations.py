@@ -41,7 +41,7 @@ def nms(dets, scores, thresh):
     return dets[keep], scores[keep]
 
 
-def class_agnostic_nms(annotations, iou=0.99):
+def class_agnostic_nms(annotations, iou=0.9):
     boxes = []
     for ann in annotations:
         boxes.append([ann["bbox"][0], ann["bbox"][1], ann["bbox"][0] + ann["bbox"][2], ann["bbox"][1] + ann["bbox"][3]])
@@ -99,6 +99,9 @@ def get_ca_od_annotations(dir_path):
             a["image_id"] = i
         updated_file_contents["images"].append(image)
         updated_file_contents["annotations"] += annotations
+    # Adjust the 'id' of annotations
+    for i, ann in enumerate(updated_file_contents["annotations"]):
+        ann["id"] = i
     print(f"It took {time.time() - start} seconds for assigning Ids.")
 
     print(f"Saving class agnostic object detection json (COCO format) file.")
