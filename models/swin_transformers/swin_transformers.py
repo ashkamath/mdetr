@@ -128,9 +128,9 @@ class WindowAttention(nn.Module):
         q = q * self.scale
         attn = (q @ k.transpose(-2, -1))
 
-        relative_position_bias_table = self.relative_position_bias_table.detach().clone()
+        relative_position_bias_table = self.relative_position_bias_table.clone().detach()
         relative_position_bias = relative_position_bias_table[self.relative_position_index.view(-1)].view(
-            self.window_size[0] * self.window_size[1], self.window_size[0] * self.window_size[1], -1).clone()  # Wh*Ww,Wh*Ww,nH
+            self.window_size[0] * self.window_size[1], self.window_size[0] * self.window_size[1], -1)  # Wh*Ww,Wh*Ww,nH
         relative_position_bias = relative_position_bias.permute(2, 0, 1).contiguous()  # nH, Wh*Ww, Wh*Ww
         attn = attn + relative_position_bias.unsqueeze(0)
 
@@ -628,21 +628,22 @@ class SwinTransformer(nn.Module):
 
 
 def load_pretrained_weights(model, checkpoints_path, strict=False):
+    print(f"Loading swin backbone checkpoints from {checkpoints_path}.")
     checkpoints = torch.load(checkpoints_path)
     checkpoints = checkpoints["model"]
     status = model.load_state_dict(checkpoints, strict=strict)
-    print(status)
+    print(f"Missing Keys: {status.missing_keys}\nUnexpected Keys: {status.unexpected_keys}")
 
 
 def get_swin_backbone(name, checkpoints=""):
     if name == "swin_T":
-        backbone = SwinTransformer()
+        backbone = SwinTransformer(embed_dim=96, depths=(2, 2, 6, 2), num_heads=(3, 6, 12, 24), window_size=7)
     elif name == "swin_S":
-        backbone = SwinTransformer()
+        backbone = SwinTransformer(embed_dim=96, depths=(2, 2, 18, 2), num_heads=(3, 6, 12, 24), window_size=7)
     elif name == "swin_B":
-        backbone = SwinTransformer()
+        backbone = SwinTransformer(embed_dim=128, depths=(2, 2, 18, 2), num_heads=(4, 8, 16, 32), window_size=7)
     elif name == "swin_L":
-        backbone = SwinTransformer()
+        backbone = SwinTransformer(embed_dim=192, depths=(2, 2, 18, 2), num_heads=(6, 12, 24, 48), window_size=7)
     else:
         # Default is Swin-T
         backbone = SwinTransformer()
@@ -652,7 +653,20 @@ def get_swin_backbone(name, checkpoints=""):
 
 
 if __name__ == "__main__":
-    swin_transformer_detection_backbone = SwinTransformer()
-    swin_transformer_detection_backbone.init_weights("/oreo/Maaz/mdetr_remote_debug/pretrained_models"
-                                                     "/swin_tiny_patch4_window7_224.pth")
+    print(f"swin-T")
+    backbone = get_swin_backbone("swin_T", "/oreo/Maaz/mdetr_remote_debug/pretrained_models/"
+                                           "swin_tiny_patch4_window7_224.pth")
+    del backbone
+    print(f"swin-S")
+    backbone = get_swin_backbone("swin_S", "/oreo/Maaz/mdetr_remote_debug/pretrained_models/"
+                                           "swin_small_patch4_window7_224.pth")
+    del backbone
+    print(f"swin-B")
+    backbone = get_swin_backbone("swin_B", "/oreo/Maaz/mdetr_remote_debug/pretrained_models/"
+                                           "swin_base_patch4_window7_224_22k.pth")
+    del backbone
+    print(f"swin-L")
+    backbone = get_swin_backbone("swin_L", "/oreo/Maaz/mdetr_remote_debug/pretrained_models/"
+                                           "swin_large_patch4_window7_224_22k.pth")
+
     print("done")
