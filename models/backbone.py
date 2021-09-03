@@ -11,6 +11,7 @@ import torchvision
 from timm.models import create_model
 from torch import nn
 from torchvision.models._utils import IntermediateLayerGetter
+from models.swin_transformers.swin_transformers import get_swin_backbone
 
 from util.misc import NestedTensor
 
@@ -34,7 +35,7 @@ class FrozenBatchNorm2d(torch.nn.Module):
         self.register_buffer("running_var", torch.ones(n))
 
     def _load_from_state_dict(
-        self, state_dict, prefix, local_metadata, strict, missing_keys, unexpected_keys, error_msgs
+            self, state_dict, prefix, local_metadata, strict, missing_keys, unexpected_keys, error_msgs
     ):
         num_batches_tracked_key = prefix + "num_batches_tracked"
         if num_batches_tracked_key in state_dict:
@@ -146,7 +147,30 @@ class TimmBackbone(nn.Module):
             replace_bn(backbone)
         num_channels = backbone.feature_info.channels()[-1]
         self.body = backbone
-        self.num_channels =  num_channels
+        self.num_channels = num_channels
+        self.interm = return_interm_layers
+        self.main_layer = main_layer
+
+    def forward(self, tensor_list):
+        xs = self.body(tensor_list.tensors)
+        if not self.interm:
+            xs = [xs[self.main_layer]]
+        out = OrderedDict()
+        for i, x in enumerate(xs):
+            mask = F.interpolate(tensor_list.mask[None].float(), size=x.shape[-2:]).bool()[0]
+            out[f"layer{i}"] = NestedTensor(x, mask)
+        return out
+
+
+class SwinBackbone(nn.Module):
+    def __init__(self, name, return_interm_layers, main_layer=-1, checkpoinst_path=None):
+        super().__init__()
+        backbone = get_swin_backbone(name, checkpoints=checkpoinst_path)
+        # with torch.no_grad():
+        #     replace_bn(backbone)
+        num_channels = backbone.num_features[-1]
+        self.body = backbone
+        self.num_channels = num_channels
         self.interm = return_interm_layers
         self.main_layer = main_layer
 
@@ -183,13 +207,16 @@ def build_backbone(args):
     return_interm_layers = args.masks
     if args.backbone[: len("timm_")] == "timm_":
         backbone = TimmBackbone(
-            args.backbone[len("timm_") :],
+            args.backbone[len("timm_"):],
             return_interm_layers,
             main_layer=-1,
             group_norm=True,
         )
     elif args.backbone in ("resnet50-gn", "resnet101-gn"):
         backbone = GroupNormBackbone(args.backbone, train_backbone, return_interm_layers, args.dilation)
+    elif args.backbone[: len("swin_")] == "swin_":
+        backbone = SwinBackbone(args.backbone, return_interm_layers, main_layer=-1,
+                                checkpoinst_path=args.backbone_checkpoints)
     else:
         backbone = Backbone(args.backbone, train_backbone, return_interm_layers, args.dilation)
     model = Joiner(backbone, position_embedding)

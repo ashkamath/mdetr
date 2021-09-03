@@ -1,13 +1,13 @@
 {
     "combine_datasets": ["flickr", "mixed"],
     "combine_datasets_val": ["gqa", "flickr", "refexp"],
-    "coco_path": "/workspace/data/coco",
-    "vg_img_path": "/workspace/data/GQA/images",
-    "flickr_img_path": "/workspace/data/fliker_30k",
-    "refexp_ann_path": "/workspace/data/OpenSource_Filter_Simple_ORE",
-    "flickr_ann_path": "/workspace/data/OpenSource_Filter_Simple_ORE",
-    "gqa_ann_path": "/workspace/data/OpenSource_Filter_Simple_ORE",
+    "coco_path": "/oreo/Maaz/mdetr/data/coco",
+    "vg_img_path": "/oreo/Maaz/mdetr/data/GQA/images",
+    "flickr_img_path": "/oreo/Maaz/mdetr/data/fliker_30k",
+    "refexp_ann_path": "/oreo/Maaz/mdetr/data/OpenSource_Filter_Simple_ORE",
+    "flickr_ann_path": "/oreo/Maaz/mdetr/data/OpenSource_Filter_Simple_ORE",
+    "gqa_ann_path": "/oreo/Maaz/mdetr/data/OpenSource_Filter_Simple_ORE",
     "refexp_dataset_name": "all",
     "GT_type": "separate",
-    "flickr_dataset_path": "/workspace/data/fliker_30k/flickr30k_entities/Annotations"
+    "flickr_dataset_path": "/oreo/Maaz/mdetr/data/fliker_30k/flickr30k_entities/Annotations"
 }

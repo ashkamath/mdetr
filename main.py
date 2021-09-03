@@ -28,6 +28,9 @@ from engine import evaluate, train_one_epoch
 from models import build_model
 from models.postprocessors import build_postprocessors
 
+os.environ['CUBLAS_WORKSPACE_CONFIG'] = ':4096:8'
+torch.autograd.set_detect_anomaly(True)
+
 
 def get_args_parser():
     parser = argparse.ArgumentParser("Set transformer detector", add_help=False)
@@ -122,6 +125,12 @@ def get_args_parser():
         default="resnet101",
         type=str,
         help="Name of the convolutional backbone to use such as resnet50 resnet101 timm_tf_efficientnet_b3_ns",
+    )
+    parser.add_argument(
+        "--backbone_checkpoints",
+        default="",
+        type=str,
+        help="Path to the backbone checkpoints. Only applicable for swin transformers backbone.",
     )
     parser.add_argument(
         "--dilation",
