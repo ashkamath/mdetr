@@ -163,9 +163,12 @@ class TimmBackbone(nn.Module):
 
 
 class SwinBackbone(nn.Module):
-    def __init__(self, name, return_interm_layers, main_layer=-1, checkpoinst_path=None):
+    def __init__(self, name, return_interm_layers, main_layer=-1, checkpoinst_path=None, train_backbone=False):
         super().__init__()
         backbone = get_swin_backbone(name, checkpoints=checkpoinst_path)
+        for name, parameter in backbone.named_parameters():
+            if not train_backbone:
+                parameter.requires_grad_(False)
         # with torch.no_grad():
         #     replace_bn(backbone)
         num_channels = backbone.num_features[-1]
@@ -216,7 +219,7 @@ def build_backbone(args):
         backbone = GroupNormBackbone(args.backbone, train_backbone, return_interm_layers, args.dilation)
     elif args.backbone[: len("swin_")] == "swin_":
         backbone = SwinBackbone(args.backbone, return_interm_layers, main_layer=-1,
-                                checkpoinst_path=args.backbone_checkpoints)
+                                checkpoinst_path=args.backbone_checkpoints, train_backbone=train_backbone)
     else:
         backbone = Backbone(args.backbone, train_backbone, return_interm_layers, args.dilation)
     model = Joiner(backbone, position_embedding)
