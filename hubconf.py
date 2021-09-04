@@ -1,7 +1,7 @@
 # Copyright (c) Aishwarya Kamath & Nicolas Carion. Licensed under the Apache License 2.0. All Rights Reserved
 import torch
 
-from models.backbone import Backbone, Joiner, TimmBackbone
+from models.backbone import Backbone, Joiner, TimmBackbone, SwinBackbone
 from models.mdetr import MDETR
 from models.position_encoding import PositionEmbeddingSine
 from models.postprocessors import PostProcess, PostProcessSegm
@@ -14,11 +14,13 @@ dependencies = ["torch", "torchvision"]
 def _make_backbone(backbone_name: str, mask: bool = False):
     if backbone_name[: len("timm_")] == "timm_":
         backbone = TimmBackbone(
-            backbone_name[len("timm_") :],
+            backbone_name[len("timm_"):],
             mask,
             main_layer=-1,
             group_norm=True,
         )
+    elif backbone_name[: len("swin_")] == "swin_":
+        backbone = SwinBackbone(backbone_name, mask, main_layer=-1, checkpoinst_path="")
     else:
         backbone = Backbone(backbone_name, train_backbone=True, return_interm_layers=mask, dilation=False)
 
@@ -30,13 +32,13 @@ def _make_backbone(backbone_name: str, mask: bool = False):
 
 
 def _make_detr(
-    backbone_name: str,
-    num_queries=100,
-    mask=False,
-    qa_dataset=None,
-    predict_final=False,
-    text_encoder="roberta-base",
-    contrastive_align_loss=True,
+        backbone_name: str,
+        num_queries=100,
+        mask=False,
+        qa_dataset=None,
+        predict_final=False,
+        text_encoder="roberta-base",
+        contrastive_align_loss=True,
 ):
     hidden_dim = 256
     backbone = _make_backbone(backbone_name, mask)
@@ -54,6 +56,28 @@ def _make_detr(
     if mask:
         return DETRsegm(detr)
     return detr
+
+
+def mdetr_swin(backbone_name="swin_S", pretrained=False, return_postprocessor=False, checkpoints_path=""):
+    """
+    MDETR R101 with 6 encoder and 6 decoder layers.
+    Pretrained on our combined aligned dataset of 1.3 million images paired with text.
+    """
+
+    model = _make_detr(backbone_name)
+    if pretrained:
+        checkpoint = torch.hub.load_state_dict_from_url(
+            url="",
+            map_location="cpu",
+            check_hash=True,
+        )
+        model.load_state_dict(checkpoint["model"])
+    elif checkpoints_path:
+        checkpoint = torch.load(checkpoints_path, map_location="cpu")
+        model.load_state_dict(checkpoint["model"])
+    if return_postprocessor:
+        return model, PostProcess()
+    return model
 
 
 def mdetr_resnet101(pretrained=False, return_postprocessor=False):
@@ -327,3 +351,10 @@ def mdetr_efficientnetB3_refcocog(pretrained=False, return_postprocessor=False):
     if return_postprocessor:
         return model, PostProcess()
     return model
+
+
+if __name__ == "__main__":
+    print(f"swin-S")
+    model, postprocessor = mdetr_swin(backbone_name="swin_S", pretrained=False, return_postprocessor=True,
+                                      checkpoints_path="pretrained_models/mdetr_swin_S.pth")
+    print("")

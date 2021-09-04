@@ -29,7 +29,6 @@ from models import build_model
 from models.postprocessors import build_postprocessors
 
 os.environ['CUBLAS_WORKSPACE_CONFIG'] = ':4096:8'
-torch.autograd.set_detect_anomaly(True)
 
 
 def get_args_parser():
