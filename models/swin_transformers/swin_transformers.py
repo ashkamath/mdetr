@@ -90,8 +90,10 @@ class WindowAttention(nn.Module):
         self.scale = qk_scale or head_dim ** -0.5
 
         # define a parameter table of relative position bias
+        # (requires_grad=False to fix the multi-gpu training issue for downstream task.)
         self.relative_position_bias_table = nn.Parameter(
-            torch.zeros((2 * window_size[0] - 1) * (2 * window_size[1] - 1), num_heads))  # 2*Wh-1 * 2*Ww-1, nH
+            torch.zeros((2 * window_size[0] - 1) * (2 * window_size[1] - 1), num_heads), requires_grad=False)
+        # 2*Wh-1 * 2*Ww-1, nH
 
         # get pair-wise relative position index for each token inside the window
         coords_h = torch.arange(self.window_size[0])
