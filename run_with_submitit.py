@@ -29,13 +29,17 @@ def parse_args():
     parser.add_argument("--timeout", default=28800, type=int, help="Duration of the job")
     parser.add_argument("--job_dir", default="", type=str, help="Job dir. Leave empty for automatic.")
     parser.add_argument("--mail", default="", type=str, help="Email this user when the job finishes if specified")
+    parser.add_argument("--gpu_name", default="v100", type=str, help="Name of the gpu on cluster.")
+    parser.add_argument("--account", default="", type=str, help="Cluster account to use, leave empty otherwise.")
+    parser.add_argument("--log_dir", default="experiments", type=str, help="Directory to save the logs and "
+                                                                           "checkpoints. The directory should "
+                                                                           "exists on the host machine.")
     return parser.parse_args()
 
 
 def get_shared_folder(args) -> Path:
-    user = os.getenv("USER")
-    if Path("/checkpoint/").is_dir():
-        p = Path(f"/checkpoint/{user}/experiments")
+    if Path(args.log_dir).is_dir():
+        p = Path(f"{args.log_dir}/experiments")
         p.mkdir(exist_ok=True)
         return p
     raise RuntimeError("No shared folder available")
@@ -143,17 +147,18 @@ def main():
         kwargs["slurm_partition"] = partition
 
     executor.update_parameters(
-        mem_gb=30 * num_gpus_per_node,
-        gpus_per_node=num_gpus_per_node,
+        mem_gb=62 * num_gpus_per_node,
+        gres=f"gpu:{args.gpu_name}:{num_gpus_per_node}",
         tasks_per_node=num_gpus_per_node,  # one task per GPU
-        cpus_per_task=6,
+        cpus_per_task=10,
         nodes=nodes,
         timeout_min=timeout_min,  # max is 60 * 72
         # Below are cluster dependent parameters
         slurm_signal_delay_s=120,
         **kwargs,
     )
-
+    if args.account:
+        executor.update_parameters(additional_parameters={"account": args.account})
     executor.update_parameters(name="detectransformer")
     if args.mail:
         executor.update_parameters(additional_parameters={"mail-user": args.mail, "mail-type": "END"})

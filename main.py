@@ -27,6 +27,8 @@ from datasets.refexp import RefExpEvaluator
 from engine import evaluate, train_one_epoch
 from models import build_model
 from models.postprocessors import build_postprocessors
+import ssl
+ssl._create_default_https_context = ssl._create_unverified_context
 
 os.environ['CUBLAS_WORKSPACE_CONFIG'] = ':4096:8'
 
@@ -83,6 +85,12 @@ def get_args_parser():
     )
     parser.add_argument("--optimizer", default="adam", type=str)
     parser.add_argument("--clip_max_norm", default=0.1, type=float, help="gradient clipping max norm")
+    parser.add_argument(
+        "--do_eval",
+        default=False,
+        type=bool,
+        help='Either to do evaluation or not.',
+    )
     parser.add_argument(
         "--eval_skip",
         default=1,
@@ -582,7 +590,7 @@ def main(args):
                     checkpoint_path,
                 )
 
-        if epoch % args.eval_skip == 0:
+        if epoch % args.eval_skip == 0 and args.do_eval:
             test_stats = {}
             test_model = model_ema if model_ema is not None else model
             for i, item in enumerate(val_tuples):
@@ -617,7 +625,7 @@ def main(args):
             with (output_dir / "log.txt").open("a") as f:
                 f.write(json.dumps(log_stats) + "\n")
 
-        if epoch % args.eval_skip == 0:
+        if epoch % args.eval_skip == 0 and args.do_eval:
             if args.do_qa:
                 metric = test_stats["gqa_accuracy_answer_total_unscaled"]
             else:
