@@ -49,7 +49,7 @@ python -m torch.distributed.launch --nproc_per_node=2 --use_env main.py --datase
 1. Change the configs/gqa.json to have `gqa_split_type` as "all"
 2. 
 ```
-python run_with_submitit.py --dataset_config configs/gqa.json --ngpus 8 --ema --epochs 125 --epoch_chunks 25 --do_qa --split_qa_heads --lr_drop 150 --load https://zenodo.org/record/4721981/files/pretrained_resnet101_checkpoint.pth--nodes 4 --batch_size 4 --no_aux_loss --qa_loss_coef 25 --lr 1.4e-4 --lr_backbone 1.4e-5 --text_encoder_lr 7e-5
+python run_with_submitit.py --dataset_config configs/gqa.json --ngpus 8 --ema --epochs 125 --epoch_chunks 25 --do_qa --split_qa_heads --lr_drop 150 --load https://zenodo.org/record/4721981/files/pretrained_resnet101_checkpoint.pth --nodes 4 --batch_size 4 --no_aux_loss --qa_loss_coef 25 --lr 1.4e-4 --lr_backbone 1.4e-5 --text_encoder_lr 7e-5
 ```
 
 To run on a single node with 8 gpus
