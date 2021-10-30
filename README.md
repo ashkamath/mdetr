@@ -16,6 +16,7 @@ We show big gains on the phrase grounding task (Flickr30k), Referring Expression
 
 For details, please see the paper: [MDETR - Modulated Detection for End-to-End Multi-Modal Understanding](https://arxiv.org/abs/2104.12763) by Aishwarya Kamath, Mannat Singh, Yann LeCun, Ishan Misra, Gabriel Synnaeve and Nicolas Carion.
 
+Aishwarya Kamath and Nicolas Carion made equal contributions to this codebase. 
 
 # Usage
 The requirements file has all the dependencies that are needed by MDETR. 
