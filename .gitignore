@@ -17,3 +17,7 @@ not_tracked_dir/
 .idea/*
 *.ext3
 flickr/*
+
+downloads/
+mdetr_annotations/
+train2014/
