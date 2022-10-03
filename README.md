@@ -1,7 +1,7 @@
 **MDETR**: Modulated Detection for End-to-End Multi-Modal Understanding
 ========
 
-[Website](https://ashkamath.github.io/mdetr_page/) • [Colab](https://colab.research.google.com/github/ashkamath/mdetr/blob/colab/notebooks/MDETR_demo.ipynb) • [Paper](https://arxiv.org/abs/2104.12763)
+[Website](https://ashkamath.github.io/mdetr_page/) • [Colab](https://colab.research.google.com/drive/11xz5IhwqAqHj9-XAIP17yVIuJsLqeYYJ?usp=sharing) • [Paper](https://arxiv.org/abs/2104.12763)
 
 
 This repository contains code and links to pre-trained models for MDETR (Modulated DETR) for pre-training on data having aligned text and images with box annotations, as well as fine-tuning on tasks requiring fine grained understanding of image and text. 
